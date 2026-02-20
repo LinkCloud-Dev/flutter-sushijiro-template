@@ -114,7 +114,7 @@ class _FeatureCopy extends StatelessWidget {
     ).toUpperCase();
 
     return SizedBox(
-      height: 400,
+      height: isCompact ? null : 400,
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: isCompact ? 22 : 34,

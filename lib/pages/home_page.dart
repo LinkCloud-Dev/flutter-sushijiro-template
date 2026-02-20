@@ -6,6 +6,7 @@ import 'package:sushi_jiro_template/widgets/home/feature_split.dart';
 import 'package:sushi_jiro_template/widgets/home/footer_section.dart';
 import 'package:sushi_jiro_template/widgets/home/hero_section.dart';
 import 'package:sushi_jiro_template/widgets/home/notice_section.dart';
+import 'package:sushi_jiro_template/theme/app_theme.dart';
 import 'package:sushi_jiro_template/widgets/home/section_header.dart';
 import 'package:sushi_jiro_template/widgets/home/social_strip.dart';
 import 'package:sushi_jiro_template/widgets/home/top_bar_section.dart';
@@ -53,6 +54,16 @@ class _HomePageState extends State<HomePage> {
 
         final content = snapshot.data ?? <String, dynamic>{};
         final navigation = asMap(content['navigation']);
+
+        final navItems = asMapList(navigation['items']);
+        final navLabels = navItems
+            .map((item) => asString(item['label']).toUpperCase())
+            .where((item) => item.isNotEmpty)
+            .toList();
+        final safeLabels = navLabels.isNotEmpty
+            ? navLabels
+            : const ['MENU', 'RESERVATIONS', 'OUR STORY'];
+
         final hero = asMap(content['hero']);
         final intro = asMap(content['intro']);
         final contentSection = asMap(content['contentSection']);
@@ -62,6 +73,47 @@ class _HomePageState extends State<HomePage> {
         final footer = asMap(content['footer']);
 
         return Scaffold(
+          endDrawer: Drawer(
+            backgroundColor: AppColors.background,
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                const DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
+                    border:
+                        Border(bottom: BorderSide(color: AppColors.borderSoft)),
+                  ),
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Text(
+                      'NAVIGATION',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.textPrimary,
+                        letterSpacing: -0.5,
+                      ),
+                    ),
+                  ),
+                ),
+                ...safeLabels.map((label) => ListTile(
+                      title: Text(
+                        label,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textPrimary,
+                          letterSpacing: 1.2,
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context); // close drawer
+                      },
+                    )),
+              ],
+            ),
+          ),
           body: LayoutBuilder(
             builder: (context, constraints) {
               final isCompact = constraints.maxWidth < 900;

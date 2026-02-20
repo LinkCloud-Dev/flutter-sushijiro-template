@@ -31,18 +31,17 @@ class HeroSection extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final availableWidth = constraints.maxWidth;
-        final frameWidth = isCompact
-            ? (availableWidth - 32).clamp(320.0, availableWidth).toDouble()
-            : (availableWidth * 0.92).clamp(980.0, 1280.0).toDouble();
         final headingSize = isCompact ? 44.0 : 72.0;
         final accentSize = isCompact ? 52.0 : 76.0;
 
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 64),
+          padding: EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: isCompact ? 32 : 64,
+          ),
           child: Center(
-            child: SizedBox(
-              width: frameWidth,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 1200),
               child: Column(
                 children: [
                   Text.rich(

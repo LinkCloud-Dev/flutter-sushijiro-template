@@ -56,7 +56,10 @@ class TopBarSection extends StatelessWidget {
               ),
               const Spacer(),
               if (isCompact)
-                _NavLink(label: safeLabels.first)
+                IconButton(
+                  icon: const Icon(Icons.menu, color: AppColors.textPrimary),
+                  onPressed: () => Scaffold.of(context).openEndDrawer(),
+                )
               else
                 Row(
                   children: safeLabels

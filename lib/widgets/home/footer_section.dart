@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sushi_jiro_template/data/json_value_reader.dart';
 import 'package:sushi_jiro_template/theme/app_theme.dart';
 
@@ -48,7 +49,7 @@ class FooterSection extends StatelessWidget {
       width: double.infinity,
       color: AppColors.footerSurface,
       margin: const EdgeInsets.only(top: 28),
-      padding: const EdgeInsets.fromLTRB(16, 82, 16, 34),
+      padding: const EdgeInsets.fromLTRB(16, 64, 16, 48),
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1200),
@@ -60,26 +61,26 @@ class FooterSection extends StatelessWidget {
                 color: AppColors.accent,
               ),
               const SizedBox(height: 44),
-              Wrap(
-                spacing: isCompact ? 22 : 48,
-                runSpacing: 28,
-                alignment: WrapAlignment.spaceBetween,
-                children: [
-                  ...safeColumns
-                      .take(2)
-                      .map(
-                        (column) => _FooterCol(
-                          title: asString(column['title']).toUpperCase(),
-                          bodyLines: asStringList(column['bodyLines']),
+              SizedBox(
+                width: double.infinity,
+                child: Wrap(
+                  runSpacing: 28,
+                  alignment: WrapAlignment.spaceBetween,
+                  children: [
+                    ...safeColumns.take(2).map(
+                          (column) => _FooterCol(
+                            title: asString(column['title']).toUpperCase(),
+                            bodyLines: asStringList(column['bodyLines']),
+                          ),
                         ),
-                      ),
-                  _FooterSocial(links: socialLinks),
-                  _FooterBrand(
-                    logoPrimary: logoPrimary,
-                    logoAccent: logoAccent,
-                    tagline: tagline,
-                  ),
-                ],
+                    _FooterSocial(links: socialLinks),
+                    _FooterBrand(
+                      logoPrimary: logoPrimary,
+                      logoAccent: logoAccent,
+                      tagline: tagline,
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 38),
               Text(
@@ -125,7 +126,7 @@ class _FooterCol extends StatelessWidget {
           Text(
             safeBodyLines.join('\n'),
             style: const TextStyle(
-              color: AppColors.textPrimary,
+              color: AppColors.textMuted,
               fontSize: 12,
               height: 1.7,
             ),
@@ -235,28 +236,66 @@ class _FooterBrand extends StatelessWidget {
   }
 }
 
-class _MiniIcon extends StatelessWidget {
+class _MiniIcon extends StatefulWidget {
   const _MiniIcon({required this.label});
 
   final String label;
 
   @override
+  State<_MiniIcon> createState() => _MiniIconState();
+}
+
+class _MiniIconState extends State<_MiniIcon> {
+  bool _isHovered = false;
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 34,
-      height: 34,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: const Color.fromRGBO(255, 255, 255, 0.16),
-        borderRadius: BorderRadius.circular(999),
-      ),
-      child: Text(
-        label,
-        style: const TextStyle(
-          fontSize: 10,
-          color: AppColors.textPrimary,
-          fontWeight: FontWeight.w700,
+    String iconPath = '';
+    switch (widget.label.toUpperCase()) {
+      case 'IG':
+        iconPath = 'assets/icons/instagram.svg';
+        break;
+      case 'FB':
+        iconPath = 'assets/icons/facebook.svg';
+        break;
+      case 'TW':
+        iconPath = 'assets/icons/twitter.svg';
+        break;
+    }
+
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      cursor: SystemMouseCursors.click,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        width: 34,
+        height: 34,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: _isHovered
+              ? AppColors.accent
+              : const Color.fromRGBO(255, 255, 255, 0.16),
+          borderRadius: BorderRadius.circular(999),
         ),
+        child: iconPath.isNotEmpty
+            ? SvgPicture.asset(
+                iconPath,
+                width: 16,
+                height: 16,
+                colorFilter: ColorFilter.mode(
+                  _isHovered ? AppColors.surface : AppColors.textPrimary,
+                  BlendMode.srcIn,
+                ),
+              )
+            : Text(
+                widget.label,
+                style: TextStyle(
+                  fontSize: 10,
+                  color: _isHovered ? AppColors.surface : AppColors.textPrimary,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
       ),
     );
   }
