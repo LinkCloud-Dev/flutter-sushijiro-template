@@ -15,6 +15,18 @@ import 'package:flutter/foundation.dart'
 /// );
 /// ```
 class DefaultFirebaseOptions {
+  static String get _webApiKey {
+    const apiKey = String.fromEnvironment('FIREBASE_WEB_API_KEY');
+    if (apiKey.isEmpty) {
+      throw UnsupportedError(
+        'Missing FIREBASE_WEB_API_KEY. Pass it with '
+        '--dart-define=FIREBASE_WEB_API_KEY=... '
+        'or --dart-define-from-file=.env.',
+      );
+    }
+    return apiKey;
+  }
+
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
       return web;
@@ -52,8 +64,8 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyB04dxQX2Oka2n36eaFVgf0o2cBsUbRukg',
+  static FirebaseOptions get web => FirebaseOptions(
+    apiKey: _webApiKey,
     appId: '1:603250263637:web:05e5ae63c416d8174af6dc',
     messagingSenderId: '603250263637',
     projectId: 'linkpos-website-builder',
