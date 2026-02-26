@@ -18,10 +18,34 @@ class SocialStrip extends StatelessWidget {
       cta['label'],
       'Follow on Instagram',
     ).toUpperCase();
-    final galleryImageUrls = asStringList(data['galleryImageUrls']);
-    final safeImages = galleryImageUrls.isNotEmpty
-        ? galleryImageUrls
-        : List<String>.filled(8, '');
+    // Some builders export image galleries as arrays of objects instead of strings
+    final rawGallery = data['galleryImageUrls'];
+    List<String> galleryImageUrls = [];
+
+    if (rawGallery is List) {
+      for (var item in rawGallery) {
+        if (item is String) {
+          galleryImageUrls.add(item);
+        } else if (item is Map) {
+          galleryImageUrls.add(asString(item['imageUrl']));
+        }
+      }
+    } else if (rawGallery is Map) {
+      // Handle Firestore Maps {"0": "url", "1": {"imageUrl": "url"}}
+      final keys = rawGallery.keys.toList()
+        ..sort((a, b) => (int.tryParse(a.toString()) ?? 0)
+            .compareTo(int.tryParse(b.toString()) ?? 0));
+      for (var k in keys) {
+        final item = rawGallery[k];
+        if (item is String) {
+          galleryImageUrls.add(item);
+        } else if (item is Map) {
+          galleryImageUrls.add(asString(item['imageUrl']));
+        }
+      }
+    }
+
+    final safeImages = galleryImageUrls;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 56),
@@ -62,7 +86,13 @@ class SocialStrip extends StatelessWidget {
                 ),
                 itemCount: safeImages.length,
                 itemBuilder: (context, index) {
-                  final imageUrl = safeImages[index];
+                  final rawImageUrl = safeImages[index];
+                  final imgRegExp = RegExp(r'src="([^"]+)"');
+                  final match = imgRegExp.firstMatch(rawImageUrl);
+                  final imageUrl = match != null
+                      ? (match.group(1) ?? rawImageUrl)
+                      : rawImageUrl;
+
                   if (imageUrl.isEmpty) {
                     return const PlaceholderBox(
                       height: 130,

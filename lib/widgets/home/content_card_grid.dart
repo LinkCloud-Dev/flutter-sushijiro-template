@@ -47,26 +47,37 @@ class ContentCardGrid extends StatelessWidget {
               final cardWidth = isDesktop
                   ? (width - (gap * 2)) / 3
                   : isTablet
-                  ? (width - gap) / 2
-                  : width;
+                      ? (width - gap) / 2
+                      : width;
 
               return Wrap(
                 spacing: gap,
                 runSpacing: gap,
-                children: safeCards
-                    .map(
-                      (card) => ContentCard(
-                        width: cardWidth,
-                        imageLabel: asString(
-                          card['imageFallbackLabel'],
-                          asString(card['title'], 'Image'),
-                        ),
-                        imageUrl: asString(card['imageUrl']),
-                        title: asString(card['title'], 'Menu Item'),
-                        description: asString(card['description']),
-                      ),
-                    )
-                    .toList(),
+                children: safeCards.map((card) {
+                  final rawDesc = asString(card['description']);
+                  // Try to parse img src manually since it's merged into description
+                  final imgRegExp = RegExp(r'src="([^"]+)"');
+                  final match = imgRegExp.firstMatch(rawDesc);
+
+                  // Extract text without the HTML tags
+                  final textDesc =
+                      rawDesc.replaceAll(RegExp(r'<[^>]*>'), '').trim();
+
+                  return ContentCard(
+                    width: cardWidth,
+                    imageLabel: asString(
+                      card['imageFallbackLabel'],
+                      asString(card['title'], 'Image'),
+                    ),
+                    imageUrl: match != null
+                        ? match.group(1) ?? asString(card['imageUrl'])
+                        : asString(card['imageUrl']),
+                    title: asString(card['title'], 'Menu Item'),
+                    description: textDesc.isEmpty
+                        ? asString(card['description'])
+                        : textDesc,
+                  );
+                }).toList(),
               );
             },
           ),

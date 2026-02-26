@@ -11,7 +11,11 @@ class FeatureSplit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final imageUrl = asString(data['imageUrl']);
+    final rawImageUrl = asString(data['imageUrl']);
+    final imgRegExp = RegExp(r'src="([^"]+)"');
+    final match = imgRegExp.firstMatch(rawImageUrl);
+    final imageUrl =
+        match != null ? (match.group(1) ?? rawImageUrl) : rawImageUrl;
     final imageFallback = asString(
       data['imageFallbackLabel'],
       'Heritage Image',

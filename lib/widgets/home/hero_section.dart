@@ -23,7 +23,14 @@ class HeroSection extends StatelessWidget {
       'Hand-crafted excellence delivered from our kitchen to your table.',
     );
     final ctaLabel = asString(cta['label'], 'Order Online').toUpperCase();
-    final imageUrl = asString(media['primaryImageUrl']);
+    final rawImageUrl = asString(
+      media['primaryImageUrl'], // Original JSON location
+      asString(data['imageUrl']), // The root location the user might have used
+    );
+    final imgRegExp = RegExp(r'src="([^"]+)"');
+    final match = imgRegExp.firstMatch(rawImageUrl);
+    final imageUrl =
+        match != null ? (match.group(1) ?? rawImageUrl) : rawImageUrl;
     final imageAlt = asString(
       media['fallbackLabel'],
       'Premium Dining Experience',

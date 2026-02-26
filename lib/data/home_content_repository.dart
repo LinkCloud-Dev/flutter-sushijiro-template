@@ -1,19 +1,27 @@
-import 'dart:convert';
-
-import 'package:flutter/services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class HomeContentRepository {
-  static const String assetPath = 'assets/data/home_content.json';
+  // Use the exact document path shown in the Firestore Console
+  static const String documentPath =
+      'stores/36844bb8-2912-435e-aa0d-9e1bd94351db/website/template1';
 
   const HomeContentRepository();
 
   Future<Map<String, dynamic>> loadRaw() async {
-    final jsonString = await rootBundle.loadString(assetPath);
-    final decoded = jsonDecode(jsonString);
-    if (decoded is! Map<String, dynamic>) {
-      throw const FormatException('home_content.json must be a JSON object.');
+    // Fetch the deeply nested document directly using its full path
+    final docSnapshot =
+        await FirebaseFirestore.instance.doc(documentPath).get();
+
+    if (!docSnapshot.exists) {
+      throw FormatException('Firestore document $documentPath does not exist.');
     }
-    return decoded;
+
+    final data = docSnapshot.data();
+    if (data == null) {
+      throw FormatException('Firestore document $documentPath is empty.');
+    }
+
+    return data;
   }
 
   Future<Map<String, dynamic>> loadSection(String key) async {
