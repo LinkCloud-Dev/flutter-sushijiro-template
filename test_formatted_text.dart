@@ -38,7 +38,7 @@ List<InlineSpan> _parseHtmlToSpans(String input, TextStyle? defaultStyle) {
     spans.add(TextSpan(
       text: content,
       style: defaultStyle?.copyWith(color: color) ?? TextStyle(color: color),
-    ));
+    )); 
     
     lastMatchEnd = match.end;
   }
