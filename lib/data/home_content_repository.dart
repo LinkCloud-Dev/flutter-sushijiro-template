@@ -24,6 +24,23 @@ class HomeContentRepository {
     return data;
   }
 
+  Stream<Map<String, dynamic>> streamRaw() {
+    return FirebaseFirestore.instance
+        .doc(documentPath)
+        .snapshots()
+        .map((snapshot) {
+      if (!snapshot.exists) {
+        throw FormatException(
+            'Firestore document $documentPath does not exist.');
+      }
+      final data = snapshot.data();
+      if (data == null) {
+        throw FormatException('Firestore document $documentPath is empty.');
+      }
+      return data;
+    });
+  }
+
   Future<Map<String, dynamic>> loadSection(String key) async {
     final root = await loadRaw();
     final section = root[key];

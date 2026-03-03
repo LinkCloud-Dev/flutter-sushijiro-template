@@ -19,20 +19,21 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late final Future<Map<String, dynamic>> _contentFuture;
+  late final Stream<Map<String, dynamic>> _contentStream;
 
   @override
   void initState() {
     super.initState();
-    _contentFuture = const HomeContentRepository().loadRaw();
+    _contentStream = const HomeContentRepository().streamRaw();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Map<String, dynamic>>(
-      future: _contentFuture,
+    return StreamBuilder<Map<String, dynamic>>(
+      stream: _contentStream,
       builder: (context, snapshot) {
-        if (snapshot.connectionState != ConnectionState.done) {
+        if (snapshot.connectionState == ConnectionState.waiting &&
+            !snapshot.hasData) {
           return const Scaffold(
             body: Center(child: CircularProgressIndicator()),
           );
