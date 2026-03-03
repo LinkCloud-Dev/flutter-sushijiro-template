@@ -1,0 +1,145 @@
+{
+  "meta": {
+    "schemaVersion": "1.1",
+    "seed": "temporary-wireframe-content",
+    "lastUpdated": "2026-02-19"
+  },
+  "navigation": {
+    "logo": {
+      "textPrimary": "SUSHI",
+      "textAccent": "ZEN"
+    },
+    "items": [
+      {
+        "label": "Menu",
+        "route": "/menu"
+      },
+      {
+        "label": "Reservations",
+        "route": "/reservations"
+      },
+      {
+        "label": "Our Story",
+        "route": "/our-story"
+      }
+    ]
+  },
+  "hero": {
+    "headlinePrefix": "Experience the Art of",
+    "headlineAccent": "Sushi",
+    "subheadline": "Hand-crafted excellence delivered from our kitchen to your table. Discover authentic flavors reimagined for the modern palate.",
+    "cta": {
+      "label": "Order Online",
+      "route": "/order"
+    },
+    "media": {
+      "primaryImageUrl": "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=1600&q=80",
+      "alt": "Premium sushi spread",
+      "fallbackLabel": "Premium Dining Experience Image"
+    }
+  },
+  "intro": {
+    "title": "Masterfully Prepared",
+    "description": "Every piece of sushi at SushiZen is a testament to tradition, quality, and creativity. We source only the finest sustainable seafood from trusted suppliers daily."
+  },
+  "contentSection": {
+    "cards": [
+      {
+        "id": "card-1",
+        "title": "Nigiri Selection",
+        "description": "Pure fish over seasoned rice, the essence of simplicity.",
+        "imageUrl": "https://images.unsplash.com/photo-1583623025817-d180a2221d0a?auto=format&fit=crop&w=900&q=80",
+        "imageFallbackLabel": "Nigiri Image",
+        "linkRoute": "/menu/nigiri"
+      },
+      {
+        "id": "card-2",
+        "title": "Signature Rolls",
+        "description": "Creative combinations that redefine flavor boundaries.",
+        "imageUrl": "https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?auto=format&fit=crop&w=900&q=80",
+        "imageFallbackLabel": "Rolls Image",
+        "linkRoute": "/menu/rolls"
+      },
+      {
+        "id": "card-3",
+        "title": "Fresh Sashimi",
+        "description": "The highest grade of raw fish served with precision.",
+        "imageUrl": "https://images.unsplash.com/photo-1563612116625-3012372fccce?auto=format&fit=crop&w=900&q=80",
+        "imageFallbackLabel": "Sashimi Image",
+        "linkRoute": "/menu/sashimi"
+      }
+    ]
+  },
+  "feature": {
+    "eyebrow": "Our Heritage",
+    "title": "A Legacy of Taste",
+    "body": "Founded on the principles of Omotenashi, our restaurant provides more than just a meal; we provide a complete sensory journey into Japanese culture.",
+    "linkLabel": "Read Our Story",
+    "linkRoute": "/our-story",
+    "imageUrl": "https://images.unsplash.com/photo-1761315412203-35e969a8665b?auto=format&fit=crop&fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&ixlib=rb-4.1.0&q=60&w=3000",
+    "alt": "Heritage dining image",
+    "imageFallbackLabel": "Heritage Image"
+  },
+  "social": {
+    "title": "Follow Our Journey",
+    "handle": "@SushiZen",
+    "cta": {
+      "label": "Follow on Instagram",
+      "url": "https://instagram.com/sushizen"
+    },
+    "galleryImageUrls": [
+      "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1523475472560-d2df97ec485c?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1526318896980-cf78c088247c?auto=format&fit=crop&w=500&q=80",
+      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=500&q=80"
+    ]
+  },
+  "notice": {
+    "label": "Dining Notice",
+    "message": "Consuming raw or undercooked meats, poultry, seafood, shellfish, or eggs may increase your risk of foodborne illness. Please inform your server of any allergies before ordering."
+  },
+  "footer": {
+    "columns": [
+      {
+        "title": "Visit Us",
+        "bodyLines": [
+          "123 Zen Garden Lane",
+          "Kyoto District, NY 10001",
+          "+1 (555) 000-ZEN"
+        ]
+      },
+      {
+        "title": "Hours",
+        "bodyLines": [
+          "Mon-Thu: 5pm - 10pm",
+          "Fri-Sat: 5pm - 11pm",
+          "Sun: Closed"
+        ]
+      }
+    ],
+    "socialLinks": [
+      {
+        "platform": "IG",
+        "url": "https://instagram.com/sushizen"
+      },
+      {
+        "platform": "FB",
+        "url": "https://facebook.com/sushizen"
+      },
+      {
+        "platform": "TW",
+        "url": "https://x.com/sushizen"
+      }
+    ],
+    "brand": {
+      "textPrimary": "SUSHI",
+      "textAccent": "ZEN",
+      "tagline": "Defining the pinnacle of Japanese dining since 2010."
+    },
+    "copyright": "© 2024 SUSHIZEN RESTAURANT GROUP. ALL RIGHTS RESERVED."
+  }
+}
