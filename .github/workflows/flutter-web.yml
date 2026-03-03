@@ -12,7 +12,10 @@ jobs:
         with:
           channel: 'stable'
       - run: flutter pub get
-      - run: flutter build web --base-href "/flutter-sushijiro-template/" --dart-define=FIREBASE_WEB_API_KEY=${{ secrets.FIREBASE_WEB_API_KEY }}
+      - name: Build Web App
+        run: flutter build web --base-href "/flutter-sushijiro-template/" --dart-define=FIREBASE_WEB_API_KEY="$FIREBASE_WEB_API_KEY"
+        env:
+          FIREBASE_WEB_API_KEY: ${{ secrets.FIREBASE_WEB_API_KEY }}
       - uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
