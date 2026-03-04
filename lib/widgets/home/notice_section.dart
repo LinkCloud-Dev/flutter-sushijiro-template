@@ -10,9 +10,21 @@ class NoticeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String extractMessage(dynamic msgData) {
+      if (msgData is String) return msgData;
+      if (msgData is List && msgData.isNotEmpty) {
+        final firstBlock = asMap(msgData.first);
+        final children = asMapList(firstBlock['children']);
+        if (children.isNotEmpty) {
+          return asString(children.first['content']);
+        }
+      }
+      return '';
+    }
+
     final label = asString(data['label'], 'DINING NOTICE').toUpperCase();
     final headline = asString(data['headline']);
-    final message = asString(data['message']);
+    final message = extractMessage(data['message']);
     final body = headline.isEmpty ? message : '$headline. $message';
 
     return Padding(
