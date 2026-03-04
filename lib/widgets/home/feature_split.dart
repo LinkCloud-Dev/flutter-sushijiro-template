@@ -108,9 +108,10 @@ class _FeatureCopy extends StatelessWidget {
   Widget build(BuildContext context) {
     String extractBody(dynamic bodyData) {
       if (bodyData is String) return bodyData;
-      if (bodyData is List && bodyData.isNotEmpty) {
+      final bodyList = asMapList(bodyData);
+      if (bodyList.isNotEmpty) {
         // Check if it's the rich text block format
-        final firstBlock = asMap(bodyData.first);
+        final firstBlock = bodyList.first;
         final children = asMapList(firstBlock['children']);
         if (children.isNotEmpty) {
           return asString(children.first['content']);
