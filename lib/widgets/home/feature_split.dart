@@ -106,12 +106,26 @@ class _FeatureCopy extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String extractBody(dynamic bodyData) {
+      if (bodyData is String) return bodyData;
+      if (bodyData is List && bodyData.isNotEmpty) {
+        // Check if it's the rich text block format
+        final firstBlock = asMap(bodyData.first);
+        final children = asMapList(firstBlock['children']);
+        if (children.isNotEmpty) {
+          return asString(children.first['content']);
+        }
+      }
+      return '';
+    }
+
     final eyebrow = asString(data['eyebrow'], 'OUR HERITAGE').toUpperCase();
     final title = asString(data['title'], 'A Legacy of Taste');
-    final body = asString(
-      data['body'],
-      asStringList(data['bodyLines']).join(' '),
-    );
+
+    final extractedBody = extractBody(data['body']);
+    final body = extractedBody.isNotEmpty
+        ? extractedBody
+        : asString(data['body'], asStringList(data['bodyLines']).join(' '));
     final linkLabel = asString(
       data['linkLabel'],
       'READ OUR STORY',
