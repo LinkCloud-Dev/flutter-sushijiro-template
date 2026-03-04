@@ -65,19 +65,25 @@ class FooterSection extends StatelessWidget {
                 width: double.infinity,
                 child: Wrap(
                   runSpacing: 28,
-                  alignment: WrapAlignment.spaceBetween,
+                  spacing: isCompact ? 32 : 0,
+                  alignment: isCompact
+                      ? WrapAlignment.center
+                      : WrapAlignment.spaceBetween,
+                  crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
                     ...safeColumns.take(2).map(
                           (column) => _FooterCol(
                             title: asString(column['title']).toUpperCase(),
                             bodyLines: asStringList(column['bodyLines']),
+                            isCompact: isCompact,
                           ),
                         ),
-                    _FooterSocial(links: socialLinks),
+                    _FooterSocial(links: socialLinks, isCompact: isCompact),
                     _FooterBrand(
                       logoPrimary: logoPrimary,
                       logoAccent: logoAccent,
                       tagline: tagline,
+                      isCompact: isCompact,
                     ),
                   ],
                 ),
@@ -101,10 +107,12 @@ class FooterSection extends StatelessWidget {
 }
 
 class _FooterCol extends StatelessWidget {
-  const _FooterCol({required this.title, required this.bodyLines});
+  const _FooterCol(
+      {required this.title, required this.bodyLines, required this.isCompact});
 
   final String title;
   final List<String> bodyLines;
+  final bool isCompact;
 
   @override
   Widget build(BuildContext context) {
@@ -112,10 +120,12 @@ class _FooterCol extends StatelessWidget {
     return SizedBox(
       width: 220,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            isCompact ? CrossAxisAlignment.center : CrossAxisAlignment.start,
         children: [
           Text(
             title,
+            textAlign: isCompact ? TextAlign.center : TextAlign.start,
             style: const TextStyle(
               fontSize: 10,
               fontWeight: FontWeight.w700,
@@ -125,6 +135,7 @@ class _FooterCol extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             safeBodyLines.join('\n'),
+            textAlign: isCompact ? TextAlign.center : TextAlign.start,
             style: const TextStyle(
               color: AppColors.textMuted,
               fontSize: 12,
@@ -138,9 +149,10 @@ class _FooterCol extends StatelessWidget {
 }
 
 class _FooterSocial extends StatelessWidget {
-  const _FooterSocial({required this.links});
+  const _FooterSocial({required this.links, required this.isCompact});
 
   final List<Map<String, dynamic>> links;
+  final bool isCompact;
 
   @override
   Widget build(BuildContext context) {
@@ -155,11 +167,13 @@ class _FooterSocial extends StatelessWidget {
     return SizedBox(
       width: 220,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            isCompact ? CrossAxisAlignment.center : CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'SOCIAL',
-            style: TextStyle(
+            textAlign: isCompact ? TextAlign.center : TextAlign.start,
+            style: const TextStyle(
               fontSize: 10,
               fontWeight: FontWeight.w700,
               letterSpacing: 1.7,
@@ -167,6 +181,8 @@ class _FooterSocial extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Row(
+            mainAxisAlignment:
+                isCompact ? MainAxisAlignment.center : MainAxisAlignment.start,
             children: safeLinks
                 .take(3)
                 .map(
@@ -190,20 +206,24 @@ class _FooterBrand extends StatelessWidget {
     required this.logoPrimary,
     required this.logoAccent,
     required this.tagline,
+    required this.isCompact,
   });
 
   final String logoPrimary;
   final String logoAccent;
   final String tagline;
+  final bool isCompact;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 260,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment:
+            isCompact ? CrossAxisAlignment.center : CrossAxisAlignment.start,
         children: [
           Text.rich(
+            textAlign: isCompact ? TextAlign.center : TextAlign.start,
             TextSpan(
               text: logoPrimary,
               style: const TextStyle(
@@ -223,6 +243,7 @@ class _FooterBrand extends StatelessWidget {
           const SizedBox(height: 10),
           Text(
             tagline,
+            textAlign: isCompact ? TextAlign.center : TextAlign.start,
             style: const TextStyle(
               color: Color(0xFF64748B),
               fontSize: 10,
